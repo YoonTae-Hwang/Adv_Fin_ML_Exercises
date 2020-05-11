@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from numba import jit
+from numba import jit, njit
 from tqdm import tqdm
 
 #========================================================
@@ -87,11 +87,13 @@ def dollar_bar_df(df, dv_column, m):
     return df.iloc[idx]
 #========================================================
 
-@jit(nopython=True)
+@jit (nopython=True)
+# @njit
 def numba_isclose(a,b,rel_tol=1e-09,abs_tol=0.0):
     return np.fabs(a-b) <= np.fmax(rel_tol*np.fmax(np.fabs(a), np.fabs(b)), abs_tol)
 
-@jit(nopython=True)
+@jit (nopython=True)
+# @njit
 def bt(p0, p1, bs):
     #if math.isclose((p1 - p0), 0.0, abs_tol=0.001):
     if numba_isclose((p1-p0),0.0,abs_tol=0.001):
@@ -101,7 +103,7 @@ def bt(p0, p1, bs):
         b = np.abs(p1-p0)/(p1-p0)
         return b
 
-@jit(nopython=True)
+@jit (nopython=True)
 def get_imbalance(t):
     bs = np.zeros_like(t)
     for i in np.arange(1, bs.shape[0]):

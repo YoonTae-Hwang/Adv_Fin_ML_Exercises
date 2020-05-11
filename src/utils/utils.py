@@ -34,7 +34,7 @@ def setup_system_logger(out_log_fp, pdir, logger):
     """
     now = pd.to_datetime('now', utc=True)
     file_ = out_log_fp+f'_{now.date()}.log'
-    logfile = Path(pdir/'logs'/file_).as_posix()
+    logfile = Path(pdir+'/logs/'+file_).as_posix()
     check_path(logfile)
     formatter = logzero.LogFormatter(fmt=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
     logzero.setup_default_logger(logfile=logfile, formatter=formatter)
